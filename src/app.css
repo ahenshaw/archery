@@ -35,6 +35,22 @@ td.end_total:nth-last-child(2) {
     border-left: 3px double black;
 }
 
+tr.gap>td {
+    font-size: 7pt;
+    padding-bottom:1px;
+    margin:0pt;
+    line-height: 10px;
+    height: 12px;
+}
+
+th.round {
+    font-size: 16pt;
+    padding-right: 0.25em;
+    padding-left: 0.25em;
+    text-align:center;
+    background-color: #ffc629;
+    border: solid black 1px;
+}
 .round {
     padding: 0;
     margin: 0;
@@ -51,53 +67,33 @@ th {
 }
 
 .nine {
-    background-color: orange;
-    padding-left: 1pt;
-    padding-right: 1pt;
+    background-color: darkslateblue;
+    padding-left: 2pt;
+    padding-right: 2pt;
+    color: white;
 }
 
 .ten {
-    padding-left: 1pt;
-    padding-right: 1pt;
-    background-color: red;
+    padding-left: 2pt;
+    padding-right: 2pt;
+    background-color: darkred;
+    color: white;
+}
+
+h1 {
+    text-align: center;
+    font-weight: bold;
 }
 
 h2 {
     background-color: #ffc629;
+    text-align: center;
 }
 
 table.details {
     margin-left: 2em;
 }
 
-.button-13 {
-    background-color: #fff;
-    border: 1px solid #d5d9d9;
-    border-radius: 8px;
-    box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
-    box-sizing: border-box;
-    color: #0f1111;
-    cursor: pointer;
-    display: inline-block;
-    font-family: "Amazon Ember", sans-serif;
-    font-size: 8pt;
-    padding-left: 5px;
-    padding-right: 5px;
-    position: relative;
-    text-align: center;
-    text-decoration: none;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    vertical-align: middle;
-}
-
-.button-13:hover {
-    background-color: #f7fafa;
-}
-
-.button-13:focus {
-    border-color: #008296;
-    box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
-    outline: 0;
+table.competitors {
+    margin-left: 1em;
 }

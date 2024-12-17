@@ -1,20 +1,29 @@
 <script>
+	import { onMount } from "svelte";
 	let toggle = [false];
+	const endpoint = "https://resultsapi.herokuapp.com/events/3877";
+	let posts = [];
+
+	onMount(async function() {
+		const response = await fetch(endpoint);
+		const data = await response.json();
+		console.log(data);
+		posts = data;
+	})
+
 </script>
 
 <h1>GAA State 25 Meter Indoor Championship</h1>
 
-<h2>
-	<button class="button-13" on:click={() => (toggle[2] = !toggle[2])}>
-		{#if toggle[2]}-{:else}+{/if}
-	</button>
+<h2 on:click={() => (toggle[2] = !toggle[2])}>
 	Barebow 60+ (Master 60) Men
 </h2>
-{#if toggle[2]}<table>
+{#if toggle[2]}<table class="competitors">
 		<thead>
 			<tr>
 				<th>Rank</th>
 				<th>Name</th>
+				<th>Target</th>
 				<th>Score</th>
 				<th>10s</th>
 				<th>9s</th>
@@ -24,6 +33,7 @@
 			<tr>
 				<td>1</td>
 				<td>Jim Thomas</td>
+				<td>15C</td>
 				<td>348</td>
 				<td>3</td>
 				<td>7</td>
@@ -31,6 +41,7 @@
 			<tr on:click={() => (toggle[2167] = !toggle[2167])}>
 				<td>2</td>
 				<td>Andrew Henshaw</td>
+				<td>16A</td>
 				<td>292</td>
 				<td>1</td>
 				<td>4</td>
@@ -44,8 +55,8 @@
 					><td colspan="5">
 						<table>
 							<tbody>
-								<tr><td colspan="10" class="round">Round 1</td></tr>
 								<tr>
+									<th rowspan="2" class="round">1</th>
 									<td class="arrows">8 2 M</td>
 									<td class="arrows">5 1 M</td>
 									<td class="arrows">5 M M</td>
@@ -73,8 +84,9 @@
 									<td class="end_total">119</td>
 									<td class="end_total">4.0</td>
 								</tr>
-								<tr><td colspan="10" class="round">Round 2</td></tr>
+								<tr class="gap"><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr>
 								<tr>
+									<th rowspan="2" class="round">2</th>
 									<td class="arrows">7 6 5</td>
 									<td class="arrows"><span class="nine">9</span> 8 5</td>
 									<td class="arrows">8 7 2</td>
@@ -110,3 +122,9 @@
 		</table>
 	{/if}
 {/if}
+
+{#each posts.rps as rps}
+<div>
+	<p>{rps.fnm} {rps.lnm}</p>
+</div>
+{/each}
