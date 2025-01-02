@@ -17,7 +17,7 @@
     font-size: 9pt;
 }
 
-td.end_total:nth-child(odd) {
+td.end_total:nth-child(even) {
     background-color: rgb(220, 229, 236);
 }
 
@@ -65,6 +65,9 @@ th {
     margin: 1em;
     font-size: 9pt;
 }
+.competitors {
+    cursor: pointer;
+}
 
 .nine {
     background-color: darkslateblue;
@@ -84,10 +87,14 @@ h1 {
     text-align: center;
     font-weight: bold;
 }
-
 h2 {
-    background-color: #ffc629;
     text-align: center;
+}
+
+h2.division {
+    background-color: #ffc629;
+    margin-top:5pt;
+    cursor: pointer;
 }
 
 table.details {

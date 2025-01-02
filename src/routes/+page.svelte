@@ -1,20 +1,91 @@
 <script>
+// @ts-nocheck
+
 	import { onMount } from "svelte";
 	let toggle = [false];
-	const endpoint = "https://resultsapi.herokuapp.com/events/3877";
-	let posts = [];
+	const event_url = "https://resultsapi.herokuapp.com/events/3877";
+	const scores_url = "https://resultsapi.herokuapp.com/events/3877/scores";
+	/**
+	 * @type {never[]}
+	 */
+	let event = [];
+	let scores = [];
+	let competitors;
 
 	onMount(async function() {
-		const response = await fetch(endpoint);
-		const data = await response.json();
-		console.log(data);
-		posts = data;
+		const scores_response = await fetch(scores_url);
+		const scores_data = await scores_response.json();
+		console.log(scores_data);
+		scores = scores_data.ars;
+
+		const event_response = await fetch(event_url);
+		const event_data = await event_response.json();
+		// console.log(event_data);
+		event = event_data;
+		competitors = event.rps;
+
 	})
+
+	function compute_scores(arrows) {
+		let total = 0;
+		let tens = 0;
+		let nines = 0;
+		for (const ch of arrows) {
+			if (ch == 'T') {total += 10; tens += 1;}
+			else if (ch == 'M') {}
+			else {total += Number(ch)}
+			if (ch == '9') {nines += 1}
+		}
+		return [total, tens, nines];
+	}
+
 
 </script>
 
-<h1>GAA State 25 Meter Indoor Championship</h1>
+<h1>{event.tnm}</h1>
+<h2>{event.tlc} | {event.tdt}</h2>
+<hr>
+{#each event.cgs as division}
+	{#if division.ars.length > 0}
+		<h2 class="division" on:click={() => (toggle[division.dor] = !toggle[division.dor])}>
+			{division.nm}
+		</h2>
+		{#if toggle[division.dor]}
+			<table class="competitors">
+				<thead>
+					<tr>
+						<th>Rank</th>
+						<th>Name</th>
+						<th>Target</th>
+						<th>Score</th>
+						<th>10s</th>
+						<th>9s</th>
+					</tr>
+				</thead>
+				<tbody>
+				{#each division.ars as archers}
+				{@const archer = competitors[archers.aid]}
+				{@const arrows = scores[archers.aid]}
+				{@const score = compute_scores(arrows)}
+				<tr on:click={() => (toggle[archers.aid] = !toggle[archers.aid])}>
+					<td>-</td>
+					<td>{archer.fnm}
+						{archer.lnm}
+					</td>
+					<td>{archer.tgt[0]}</td>
+					<td>{score[0]}</td>
+					<td>{score[1]}</td>
+					<td>{score[2]}</td>
+					<td>{arrows}</td>
+				</tr>
 
+				{/each}
+				</tbody>
+			</table>
+		{/if}
+
+	{/if}
+{/each}
 <h2 on:click={() => (toggle[2] = !toggle[2])}>
 	Barebow 60+ (Master 60) Men
 </h2>
@@ -123,8 +194,27 @@
 	{/if}
 {/if}
 
-{#each posts.rps as rps}
+{#each event.rps as rps}
 <div>
 	<p>{rps.fnm} {rps.lnm}</p>
 </div>
 {/each}
+
+<h2 on:click={() => (toggle[3] = !toggle[3])}>
+	Barebow Senior Men
+</h2>
+{#if toggle[3]}<table class="competitors">
+		<thead>
+			<tr>
+				<th>Rank</th>
+				<th>Name</th>
+				<th>Target</th>
+				<th>Score</th>
+				<th>10s</th>
+				<th>9s</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+{/if}
