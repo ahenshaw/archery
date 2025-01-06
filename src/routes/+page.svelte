@@ -3,9 +3,11 @@
 
 	import { onMount } from "svelte";
 	import Scores from "./Scores.svelte";
+
 	let toggle = [false];
-	const event_url = "https://resultsapi.herokuapp.com/events/3877";
-	const scores_url = "https://resultsapi.herokuapp.com/events/3877/scores";
+	let event_id = "3877";
+	const event_url = "https://resultsapi.herokuapp.com/events/" + event_id;
+	const scores_url = "https://resultsapi.herokuapp.com/events/" + event_id + "/scores";
 	/**
 	 * @type {never[]}
 	 */
@@ -16,12 +18,10 @@
 	onMount(async function() {
 		const scores_response = await fetch(scores_url);
 		const scores_data = await scores_response.json();
-		console.log(scores_data);
 		scores = scores_data.ars;
 
 		const event_response = await fetch(event_url);
 		const event_data = await event_response.json();
-		// console.log(event_data);
 		event = event_data;
 		competitors = event.rps;
 
