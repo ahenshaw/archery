@@ -2,6 +2,7 @@
 // @ts-nocheck
 
 	import { onMount } from "svelte";
+	import Scores from "./Scores.svelte";
 	let toggle = [false];
 	const event_url = "https://resultsapi.herokuapp.com/events/3877";
 	const scores_url = "https://resultsapi.herokuapp.com/events/3877/scores";
@@ -44,7 +45,6 @@
 
 <h1>{event.tnm}</h1>
 <h2>{event.tlc} | {event.tdt}</h2>
-<hr>
 {#each event.cgs as division}
 	{#if division.ars.length > 0}
 		<h2 class="division" on:click={() => (toggle[division.dor] = !toggle[division.dor])}>
@@ -64,21 +64,24 @@
 				</thead>
 				<tbody>
 				{#each division.ars as archers}
-				{@const archer = competitors[archers.aid]}
-				{@const arrows = scores[archers.aid]}
-				{@const score = compute_scores(arrows)}
-				<tr on:click={() => (toggle[archers.aid] = !toggle[archers.aid])}>
-					<td>-</td>
-					<td>{archer.fnm}
-						{archer.lnm}
-					</td>
-					<td>{archer.tgt[0]}</td>
-					<td>{score[0]}</td>
-					<td>{score[1]}</td>
-					<td>{score[2]}</td>
-					<td>{arrows}</td>
-				</tr>
-
+					{@const archer = competitors[archers.aid]}
+					{@const arrows = scores[archers.aid]}
+					{@const score = compute_scores(arrows)}
+					<tr on:click={() => (toggle[archers.aid] = !toggle[archers.aid])}>
+						<td>-</td>
+						<td>{archer.fnm}
+							{archer.lnm}
+						</td>
+						<td>{archer.tgt[0]}</td>
+						<td>{score[0]}</td>
+						<td>{score[1]}</td>
+						<td>{score[2]}</td>
+					</tr>
+					{#if toggle[archers.aid]}
+						<tr>
+							<td colspan=6><Scores arrows={arrows} /></td>
+						</tr>
+					{/if}
 				{/each}
 				</tbody>
 			</table>
@@ -86,7 +89,7 @@
 
 	{/if}
 {/each}
-<h2 on:click={() => (toggle[2] = !toggle[2])}>
+<!-- <h2 on:click={() => (toggle[2] = !toggle[2])}>
 	Barebow 60+ (Master 60) Men
 </h2>
 {#if toggle[2]}<table class="competitors">
@@ -217,4 +220,4 @@
 		<tbody>
 		</tbody>
 	</table>
-{/if}
+{/if} -->
