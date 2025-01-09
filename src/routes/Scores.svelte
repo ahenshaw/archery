@@ -1,9 +1,58 @@
 <script lang="ts">
     let { arrows } = $props();
-    let rounds = [];
+    let rounds = [
+        [[["8", "2", "M"], ["8", "2", "9"],["8", "2", "T"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],],
+         [10, 6, 5, 19, 13, 11, 15, 13, 10, 17, 119, 4.0]],
+        [[["8", "2", "M"], ["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],],
+        [10, 6, 5, 19, 13, 11, 15, 13, 10, 17, 119, 4.0]],
+    ];
 </script>
-<div>{arrows}</div>
+
 <table class="details">
+    <tbody>
+        <tr class="round">
+            <td colspan="5">
+                <table>
+                    <tbody>
+                        {#each rounds as round, index}
+                        {@const row = index + 1}
+                        {@const ends = round[0]}
+                        {@const totals = round[1]}
+                        <tr>
+                            <th rowspan="2" class="round">{row}</th>
+                            {#each ends as end}
+                                <td class="arrows">
+                                    {#each end as arrow}
+                                        {#if arrow == "9"}
+                                            <span class="nine">{arrow+" "}</span>
+                                        {:else if arrow == "T"}
+                                            <span class="ten">{arrow+" "}</span>
+                                        {:else}
+                                            {arrow+" "}
+                                        {/if}
+                                    {/each}
+                                </td>
+                            {/each}
+                            <td class="arrows">Total</td>
+                            <td class="arrows">Avg</td>
+                        </tr>
+                        <tr class="ends">
+                            {#each totals as end_total}
+                            <td class="end_total">{end_total}</td>
+                            {/each}
+                        </tr>
+                        {#if index < rounds.length-1}
+                        <tr class="gap"><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr>
+                        {/if}
+                        {/each}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- <table class="details">
     <tbody>
         <tr class="round">
             <td colspan="5">
@@ -73,4 +122,4 @@
             </td>
         </tr>
     </tbody>
-</table>
+</table> -->
