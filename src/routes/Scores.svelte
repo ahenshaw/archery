@@ -1,11 +1,49 @@
 <script lang="ts">
     let { arrows } = $props();
-    let rounds = [
-        [[["8", "2", "M"], ["8", "2", "9"],["8", "2", "T"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],],
-         [10, 6, 5, 19, 13, 11, 15, 13, 10, 17, 119, 4.0]],
-        [[["8", "2", "M"], ["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],["8", "2", "M"],],
-        [10, 6, 5, 19, 13, 11, 15, 13, 10, 17, 119, 4.0]],
-    ];
+    let rounds = extract_rounds(arrows);
+    function extract_rounds(arrows: string) {
+        let rounds = [];
+        for (let round_index = 0; round_index < 2; round_index++) {
+            let end_totals = [];
+            let round_total = 0;
+            let ends = [];
+            let shot_count = 0;
+            for (let end_index = 0; end_index < 10; end_index++) {
+                let end_total = 0;
+                let end = [];
+                let flag = false;
+                for (let arrow_index = 0; arrow_index < 3; arrow_index++) {
+                    let index = 3*(round_index * 10 + end_index) + arrow_index;
+                    let arrow = arrows.charAt(index);
+                    if (arrow) {
+                        end.push(arrow);
+                        flag = true;
+                        if (arrow == 'T') {end_total += 10;}
+                        else if (arrow == 'M') {}
+                        else {end_total +=  Number(arrow)}
+                        shot_count += 1;
+                    } else {
+                        end.push("-")
+                    }
+                }
+                if (flag) {
+                    end_totals.push(end_total);
+                    ends.push(end);
+                } else {
+                    end_totals.push("-");
+                    ends.push(["-","-","-"]);
+                }
+                round_total += end_total;
+            }
+            end_totals.push(round_total);
+            if (shot_count != 0){
+                end_totals.push((round_total/shot_count).toFixed(2));
+            }
+            else {end_totals.push("-")}
+            rounds.push([ends, end_totals])
+        }
+        return rounds;
+    }
 </script>
 
 <table class="details">
@@ -24,11 +62,11 @@
                                 <td class="arrows">
                                     {#each end as arrow}
                                         {#if arrow == "9"}
-                                            <span class="nine">{arrow+" "}</span>
+                                            <span class="nine">{arrow}</span>
                                         {:else if arrow == "T"}
-                                            <span class="ten">{arrow+" "}</span>
+                                            <span class="ten">{arrow}</span>
                                         {:else}
-                                            {arrow+" "}
+                                            <span class="default">{arrow}</span>
                                         {/if}
                                     {/each}
                                 </td>
