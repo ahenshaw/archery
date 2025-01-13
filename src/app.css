@@ -124,3 +124,8 @@ table.details {
 table.competitors {
     margin-left: 1em;
 }
+
+.division_name {
+    margin-right: 1em;
+    font-size: 8pt;
+}

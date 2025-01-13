@@ -4,7 +4,8 @@
 	import { onMount } from "svelte";
 	import Scores from "./Scores.svelte";
 
-	let toggle = [false];
+	let toggle = [true];
+	let shown = [false];
 	let event_id = "3877";
 	const event_url = "https://resultsapi.herokuapp.com/events/" + event_id;
 	const scores_url = "https://resultsapi.herokuapp.com/events/" + event_id + "/scores";
@@ -46,7 +47,7 @@
 <h1>{event.tnm}</h1>
 <h2>{event.tlc} | {event.tdt}</h2>
 {#each event.cgs as division}
-	{#if division.ars.length > 0}
+	{#if division.ars.length > 0 && shown[division.dor]}
 		<h2 class="division" on:click={() => (toggle[division.dor] = !toggle[division.dor])}>
 			{division.nm}
 		</h2>
@@ -89,6 +90,15 @@
 
 	{/if}
 {/each}
+<hr>
+<div>
+	{#each event.cgs as division}
+		{#if division.ars.length > 0}
+				<span class="division_name"><input type="checkbox" bind:checked={shown[division.dor]}/> {division.nm}</span>
+		{/if}
+	{/each}
+</div>
+
 <!-- <h2 on:click={() => (toggle[2] = !toggle[2])}>
 	Barebow 60+ (Master 60) Men
 </h2>
